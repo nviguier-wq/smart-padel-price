@@ -1,5 +1,6 @@
 import sqlite3
 import re
+import os
 import subprocess
 from flask import Flask, render_template, request, send_from_directory
 
@@ -275,6 +276,12 @@ def run_script(script_type, script_name):
 @app.route('/web_pages/<path:filename>')
 def serve_web_pages(filename):
     return send_from_directory('web_pages', filename)
+
+@app.route('/<path:filename>')
+def serve_root_files(filename):
+    if os.path.exists(os.path.join('web_pages', filename)):
+        return send_from_directory('web_pages', filename)
+    return "Page non trouvée", 404
 
 if __name__ == '__main__':
     app.run(debug=True)
