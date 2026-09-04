@@ -1,7 +1,7 @@
 import sqlite3
 import re
 import subprocess
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 
 app = Flask(__name__, template_folder='web_pages', static_folder='web_pages/assets')
 
@@ -271,6 +271,10 @@ def run_script(script_type, script_name):
         print(f"Erreur : {e}")
         
     return f'<script>alert("Le script {script_name} a été lancé avec succès en mode {mode_execution} !"); window.location.href = "/admin";</script>'
+
+@app.route('/web_pages/<path:filename>')
+def serve_web_pages(filename):
+    return send_from_directory('web_pages', filename)
 
 if __name__ == '__main__':
     app.run(debug=True)
