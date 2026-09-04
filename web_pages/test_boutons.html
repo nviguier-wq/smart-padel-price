@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test des boutons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        .animate-flashy {
+            animation: pulse-ring 2s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(255, 122, 47, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 122, 47, 0); }
+            100% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(255, 122, 47, 0); }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brandBlue: '#1268E8', accentOrange: '#FF7A2F', bgGray: '#F7F9FC' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-bgGray font-sans flex flex-col items-center justify-center min-h-screen gap-10 py-10">
+
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Aperçu des 4 propositions d'icônes :</h2>
+
+    <!-- Option 1 : La balance -->
+    <div class="flex flex-col items-center gap-3">
+        <span class="text-gray-500 font-semibold">Option 1 : La balance (Comparaison)</span>
+        <a href="#" class="animate-flashy inline-flex items-center justify-center gap-4 bg-gradient-to-r from-brandBlue via-blue-600 to-accentOrange text-white text-xl font-extrabold px-10 py-5 rounded-2xl shadow-2xl transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white backdrop-blur-md shadow-inner">
+                <i class="fa-solid fa-scale-balanced text-xl"></i>
+            </div>
+            <span>Accéder au comparateur complet</span>
+            <i class="fa-solid fa-arrow-right text-sm"></i>
+        </a>
+    </div>
+
+    <!-- Option 2 : La flamme -->
+    <div class="flex flex-col items-center gap-3">
+        <span class="text-gray-500 font-semibold">Option 2 : La flamme (Meilleurs prix / Bons plans)</span>
+        <a href="#" class="animate-flashy inline-flex items-center justify-center gap-4 bg-gradient-to-r from-brandBlue via-blue-600 to-accentOrange text-white text-xl font-extrabold px-10 py-5 rounded-2xl shadow-2xl transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white backdrop-blur-md shadow-inner">
+                <i class="fa-solid fa-fire text-xl"></i>
+            </div>
+            <span>Accéder au comparateur complet</span>
+            <i class="fa-solid fa-arrow-right text-sm"></i>
+        </a>
+    </div>
+
+    <!-- Option 3 : Le trophée -->
+    <div class="flex flex-col items-center gap-3">
+        <span class="text-gray-500 font-semibold">Option 3 : Le trophée (La meilleure sélection)</span>
+        <a href="#" class="animate-flashy inline-flex items-center justify-center gap-4 bg-gradient-to-r from-brandBlue via-blue-600 to-accentOrange text-white text-xl font-extrabold px-10 py-5 rounded-2xl shadow-2xl transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white backdrop-blur-md shadow-inner">
+                <i class="fa-solid fa-trophy text-xl"></i>
+            </div>
+            <span>Accéder au comparateur complet</span>
+            <i class="fa-solid fa-arrow-right text-sm"></i>
+        </a>
+    </div>
+
+    <!-- Option 4 : Le bouclier -->
+    <div class="flex flex-col items-center gap-3">
+        <span class="text-gray-500 font-semibold">Option 4 : Le bouclier (Fiabilité / Sécurité)</span>
+        <a href="#" class="animate-flashy inline-flex items-center justify-center gap-4 bg-gradient-to-r from-brandBlue via-blue-600 to-accentOrange text-white text-xl font-extrabold px-10 py-5 rounded-2xl shadow-2xl transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white backdrop-blur-md shadow-inner">
+                <i class="fa-solid fa-shield-halved text-xl"></i>
+            </div>
+            <span>Accéder au comparateur complet</span>
+            <i class="fa-solid fa-arrow-right text-sm"></i>
+        </a>
+    </div>
+
+</body>
+</html>

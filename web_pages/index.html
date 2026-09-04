@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padel Hub - Le comparateur Padel</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @keyframes pulse-ring {
+            0% { transform: scale(0.99); box-shadow: 0 0 0 0 rgba(255, 122, 47, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 122, 47, 0); }
+            100% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(255, 122, 47, 0); }
+        }
+        .animate-flashy {
+            animation: pulse-ring 2s infinite;
+        }
+        /* Transition douce en fondu + translation latérale */
+        .hero-slide {
+            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#092B63',
+                        brandBlue: '#1268E8',
+                        lightBlue: '#EAF3FF',
+                        accentOrange: '#FF7A2F',
+                        dynamicOrange: '#FF5A3C',
+                        bgGray: '#F7F9FC',
+                        textGray: '#667085',
+                        promoGreen: '#20A464'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-bgGray text-gray-800 font-sans antialiased selection:bg-brandBlue selection:text-white flex flex-col min-h-screen">
+
+    <!-- HEADER COMMUN -->
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="assets/img/Logo.png" alt="Padel Hub" class="h-12 w-auto object-contain">
+                </a>
+            </div>
+            
+            <nav class="hidden md:flex items-center space-x-8 font-medium text-sm text-textGray">
+                <div class="relative">
+                    <a href="index.html" class="text-brandBlue font-semibold pb-1 flex flex-col items-center">
+                        Accueil
+                        <span class="absolute -bottom-6 w-8 h-1 bg-brandBlue rounded-t-full"></span>
+                    </a>
+                </div>
+                <button type="button" class="btn-open-about hover:text-brandBlue transition focus:outline-none">À propos</button>
+            </nav>
+
+            <div class="flex items-center space-x-5">
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- HERO SECTION -->
+        <section class="bg-white pt-12 pb-16 px-6 relative overflow-hidden border-b border-gray-100">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left Text Content -->
+                <div class="lg:col-span-7 z-10 space-y-6 flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <div class="mb-2">
+                        <img src="assets/img/Logo.png" alt="Padel Hub" class="h-20 sm:h-24 w-auto object-contain">
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.15]">
+                        <span class="text-brandBlack">« Dénichez votre matériel de padel au juste prix. »</span>
+                    </h1>
+                    <p class="text-textblue text-lg sm:text-xl font-normal max-w-3xl leading-relaxed">
+                        Comparez, testez les codes promo et payez votre équipement moins cher.
+                    </p>
+                </div>
+
+                <!-- Right Hero : Zone animée en plein format (object-cover) -->
+                <div class="lg:col-span-5 relative flex justify-center lg:justify-end min-h-[340px] sm:min-h-[400px] items-center">
+                    <div class="absolute w-72 h-72 bg-lightBlue rounded-full blur-3xl opacity-75 -z-10"></div>
+                    
+                    <!-- Conteneur global ajusté avec des bordures douces et sans padding interne pour que l'image touche les bords -->
+                    <div class="relative w-full max-w-[460px] h-[320px] sm:h-[360px] rounded-3xl bg-white shadow-xl border border-gray-100 overflow-hidden flex items-center justify-center">
+                        
+                        <!-- SLIDE 1 : L'encart publicitaire en plein format -->
+                        <div id="hero-slide-promo" class="hero-slide absolute inset-0 w-full h-full opacity-100 translate-x-0">
+                            <a href="https://cappadel.com/" target="_blank" rel="nofollow noopener" class="w-full h-full block">
+                                <img src="assets/img/banniere-partenaire.png" alt="Offre Partenaire Exclusive" class="w-full h-full object-cover transform hover:scale-105 transition duration-900" loading="lazy">
+                            </a>
+                        </div>
+
+                        <!-- SLIDE 2 : L'image de la raquette et de la balle en plein format -->
+                        <div id="hero-slide-image" class="hero-slide absolute inset-0 w-full h-full opacity-0 translate-x-12 pointer-events-none">
+                            <img src="assets/img/Raquette et balle.png" alt="Raquette et balle de padel" class="w-full h-full object-cover transform hover:scale-105 transition duration-500" loading="lazy">
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BARRE DE RECHERCHE PRINCIPALE -->
+            <div class="max-w-4xl mx-auto mt-8 relative z-20">
+                <form action="comparateur.html" method="GET" class="bg-white p-3 rounded-2xl shadow-xl border border-gray-100 flex flex-col md:flex-row items-center gap-3">
+                    <div class="flex items-center flex-1 px-4 py-2 w-full">
+                        <i class="fa-solid fa-magnifying-glass text-textGray mr-3 text-base"></i>
+                        <input type="text" name="q" placeholder="Rechercher un produit, une marque (ex: Bullpadel Hack)..." class="w-full focus:outline-none text-gray-800 placeholder-textGray bg-transparent text-sm sm:text-base font-normal">
+                    </div>
+
+                    <button type="submit" class="bg-brandBlue hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition w-full md:w-auto shadow-md shadow-brandBlue/20 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass md:hidden"></i>
+                        <span>Rechercher</span>
+                    </button>
+                </form>
+
+                <div class="mt-8 flex justify-center">
+                    <a href="comparateur.html" class="animate-flashy inline-flex items-center justify-center gap-4 bg-gradient-to-r from-brandBlue via-blue-600 to-accentOrange hover:from-blue-700 hover:to-accentOrange text-white text-lg sm:text-xl font-extrabold px-10 py-5 rounded-2xl shadow-2xl transition-all transform hover:-translate-y-1">
+                        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white backdrop-blur-md shadow-inner">
+                            <i class="fa-solid fa-table-tennis-paddle-ball text-xl"></i>
+                        </div>
+                        <span>Accéder au comparateur complet</span>
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- AVANTAGES -->
+        <section class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                    <div class="bg-lightBlue text-brandBlue w-12 h-12 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-gray-900">Comparez les prix</h4>
+                        <p class="text-xs text-textGray mt-0.5">et économisez</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                    <div class="bg-lightBlue text-brandBlue w-12 h-12 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-gray-900">Les meilleurs marchands</h4>
+                        <p class="text-xs text-textGray mt-0.5">référencés</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                    <div class="bg-lightBlue text-brandBlue w-12 h-12 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-rotate"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-gray-900">Actualisation régulière </h4>
+                        <p class="text-xs text-textGray mt-0.8">des prix</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                    <div class="bg-lightBlue text-brandBlue w-12 h-12 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-gray-900">100% gratuit</h4>
+                        <p class="text-xs text-textGray mt-0.5">et sans engagement</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATÉGORIES -->
+        <section class="max-w-7xl mx-auto px-6 py-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Catégories populaires</h2>
+                <a href="comparateur.html" class="text-brandBlue font-semibold text-sm hover:underline flex items-center gap-1.5">
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                <!-- Raquettes : Lien actif -->
+                <a href="comparateur.html?categorie=raquettes" class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:border-brandBlue hover:shadow-md transition group flex flex-col items-center text-center">
+                    <div class="h-24 w-full mb-3 flex items-center justify-center">
+                        <i class="fa-solid fa-table-tennis-paddle-ball text-3xl text-brandBlue"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-900 mb-1">Raquettes</h3>
+                    <span class="text-xs font-semibold text-brandBlue flex items-center gap-1 group-hover:translate-x-1 transition">Comparer <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </a>
+
+                <!-- Chaussures : Modale "En construction" -->
+                <button type="button" data-categorie="Chaussures" class="btn-open-construction bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:border-brandBlue hover:shadow-md transition group flex flex-col items-center text-center w-full focus:outline-none">
+                    <div class="h-24 w-full mb-3 flex items-center justify-center">
+                        <i class="fa-solid fa-shoe-prints text-3xl text-brandBlue"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-900 mb-1">Chaussures</h3>
+                    <span class="text-xs font-semibold text-brandBlue flex items-center gap-1 group-hover:translate-x-1 transition">Bientôt <i class="fa-solid fa-clock text-[10px]"></i></span>
+                </button>
+
+                <!-- Sacs : Modale "En construction" -->
+                <button type="button" data-categorie="Sacs" class="btn-open-construction bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:border-brandBlue hover:shadow-md transition group flex flex-col items-center text-center w-full focus:outline-none">
+                    <div class="h-24 w-full mb-3 flex items-center justify-center">
+                        <i class="fa-solid fa-bag-shopping text-3xl text-brandBlue"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-900 mb-1">Sacs</h3>
+                    <span class="text-xs font-semibold text-brandBlue flex items-center gap-1 group-hover:translate-x-1 transition">Bientôt <i class="fa-solid fa-clock text-[10px]"></i></span>
+                </button>
+
+                <!-- Balles : Modale "En construction" -->
+                <button type="button" data-categorie="Balles" class="btn-open-construction bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:border-brandBlue hover:shadow-md transition group flex flex-col items-center text-center w-full focus:outline-none">
+                    <div class="h-24 w-full mb-3 flex items-center justify-center">
+                        <i class="fa-solid fa-baseball text-3xl text-brandBlue"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-900 mb-1">Balles</h3>
+                    <span class="text-xs font-semibold text-brandBlue flex items-center gap-1 group-hover:translate-x-1 transition">Bientôt <i class="fa-solid fa-clock text-[10px]"></i></span>
+                </button>
+
+                <!-- Accessoires : Modale "En construction" -->
+                <button type="button" data-categorie="Accessoires" class="btn-open-construction bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:border-brandBlue hover:shadow-md transition group flex flex-col items-center text-center w-full focus:outline-none">
+                    <div class="h-24 w-full mb-3 flex items-center justify-center">
+                        <i class="fa-solid fa-grip-lines text-3xl text-brandBlue"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-900 mb-1">Accessoires</h3>
+                    <span class="text-xs font-semibold text-brandBlue flex items-center gap-1 group-hover:translate-x-1 transition">Bientôt <i class="fa-solid fa-clock text-[10px]"></i></span>
+                </button>
+
+                <!-- Textile : Modale "En construction" -->
+                <button type="button" data-categorie="Textile" class="btn-open-construction bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:border-brandBlue hover:shadow-md transition group flex flex-col items-center text-center w-full focus:outline-none">
+                    <div class="h-24 w-full mb-3 flex items-center justify-center">
+                        <i class="fa-solid fa-shirt text-3xl text-brandBlue"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-900 mb-1">Textile</h3>
+                    <span class="text-xs font-semibold text-brandBlue flex items-center gap-1 group-hover:translate-x-1 transition">Bientôt <i class="fa-solid fa-clock text-[10px]"></i></span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODALES (À propos, Légales, Confidentialité, Construction) -->
+    <!-- MODALE 1 : À PROPOS -->
+    <div id="aboutModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-100 flex flex-col relative p-6 sm:p-8">
+            <button id="closeAboutModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition z-10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-4 pb-6 border-b border-gray-100">
+                <img src="assets/img/Logo.png" alt="Padel Hub Logo" class="h-12 w-auto mx-auto object-contain">
+                <div>
+                    <h3 class="text-2xl font-extrabold text-navy">À propos de Padel Hub</h3>
+                    <p class="text-xs font-semibold text-brandBlue uppercase tracking-wider mt-1">Le 1er comparateur 100% Padel</p>
+                </div>
+            </div>
+
+            <div class="py-6 space-y-6 text-sm text-textGray leading-relaxed">
+                <p>
+                    <strong class="text-gray-900">Padel Hub</strong> est né d'une ambition simple : aider les passionnés de padel à trouver leur équipement idéal au meilleur prix, sans perdre de temps à scruter des dizaines de boutiques en ligne.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                    <div class="bg-bgGray p-4 rounded-2xl border border-gray-100 text-center space-y-1">
+                        <i class="fa-solid fa-bolt text-brandBlue text-xl mb-1"></i>
+                        <h4 class="font-bold text-gray-900 text-xs">Mise à jour direct</h4>
+                        <p class="text-[11px] text-textGray">Prix et promotions vérifiés en temps réel</p>
+                    </div>
+                    <div class="bg-bgGray p-4 rounded-2xl border border-gray-100 text-center space-y-1">
+                        <i class="fa-solid fa-tags text-promoGreen text-xl mb-1"></i>
+                        <h4 class="font-bold text-gray-900 text-xs">Codes promos</h4>
+                        <p class="text-[11px] text-textGray">Application automatique des meilleurs codes</p>
+                    </div>
+                    <div class="bg-bgGray p-4 rounded-2xl border border-gray-100 text-center space-y-1">
+                        <i class="fa-solid fa-shield-halved text-accentOrange text-xl mb-1"></i>
+                        <h4 class="font-bold text-gray-900 text-xs">100% Indépendant</h4>
+                        <p class="text-[11px] text-textGray">Comparaison objective et transparente</p>
+                    </div>
+                </div>
+
+                <p>
+                    Que vous cherchiez votre nouvelle raquette, des chaussures adaptées aux pistes en moquette ou des accessoires, nous agrégons les catalogues des plus grands revendeurs français et européens.
+                </p>
+            </div>
+
+            <div class="pt-4 border-t border-gray-100 flex justify-end">
+                <button type="button" id="closeAboutModalBtn" class="bg-brandBlue hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition shadow-md shadow-brandBlue/20">
+                    Compris !
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE 2 : MENTIONS LÉGALES -->
+    <div id="legalModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-100 flex flex-col relative p-6 sm:p-8">
+            <button id="closeLegalModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition z-10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="pb-4 mb-4 border-b border-gray-100 flex items-center gap-3">
+                <i class="fa-solid fa-scale-balanced text-brandBlue text-2xl"></i>
+                <div>
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-navy">Mentions Légales et Transparence</h3>
+                    <p class="text-xs text-textGray">Padel Hub</p>
+                </div>
+            </div>
+
+            <div id="legalModalContent" class="py-2 overflow-y-auto">
+                <div class="flex justify-center items-center py-12 text-gray-400">
+                    <i class="fa-solid fa-circle-notch fa-spin text-2xl"></i>
+                </div>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-gray-100 flex justify-end">
+                <button type="button" id="closeLegalModalBtn" class="bg-brandBlue hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE 3 : POLITIQUE DE CONFIDENTIALITÉ -->
+    <div id="privacyModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-100 flex flex-col relative p-6 sm:p-8">
+            <button id="closePrivacyModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition z-10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="pb-4 mb-4 border-b border-gray-100 flex items-center gap-3">
+                <i class="fa-solid fa-user-shield text-brandBlue text-2xl"></i>
+                <div>
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-navy">Politique de Confidentialité et Protection des Données</h3>
+                    <p class="text-xs text-textGray">Padel Hub</p>
+                </div>
+            </div>
+
+            <div id="privacyModalContent" class="py-2 overflow-y-auto">
+                <div class="flex justify-center items-center py-12 text-gray-400">
+                    <i class="fa-solid fa-circle-notch fa-spin text-2xl"></i>
+                </div>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-gray-100 flex justify-end">
+                <button type="button" id="closePrivacyModalBtn" class="bg-brandBlue hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE 4 : SECTION EN CONSTRUCTION -->
+    <div id="constructionModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-gray-100 flex flex-col relative p-6 sm:p-8 text-center">
+            <button id="closeConstructionModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition z-10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="w-16 h-16 bg-lightBlue text-brandBlue rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-inner">
+                <i class="fa-solid fa-person-digging"></i>
+            </div>
+
+            <h3 class="text-xl font-extrabold text-navy mb-2">Bientôt disponible !</h3>
+            <p class="text-sm text-textGray mb-6 leading-relaxed">
+                La catégorie <strong id="categoryName" class="text-gray-900"></strong> est actuellement en cours de développement sur Padel Hub. Revenez très vite pour comparer les meilleures offres !
+            </p>
+
+            <div class="flex flex-col gap-3">
+                <a href="comparateur.html" class="bg-brandBlue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl text-sm transition shadow-md shadow-brandBlue/20">
+                    Découvrir les raquettes disponibles
+                </a>
+                <button type="button" id="closeConstructionBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 px-6 rounded-xl text-sm transition">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER COMMUN -->
+    <footer class="bg-white border-t border-gray-200 text-textGray text-sm pt-16 pb-12 mt-12">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div class="space-y-4">
+                <div class="flex items-center space-x-3">
+                    <img src="assets/img/Logo.png" alt="Padel Hub" class="h-8 w-auto object-contain">
+                </div>
+                <p class="text-textGray text-sm leading-relaxed max-w-sm">
+                    «Simplifiez vos recherches de matériel avec Padel Hub. Comparez les prix et dénichez les meilleures offres disponibles sur les différents sites de vente en ligne.»
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wider">Comparer</h4>
+                <ul class="space-y-2.5">
+                    <li><a href="comparateur.html?categorie=raquettes" class="hover:text-brandBlue transition">Raquettes de padel</a></li>
+                    <li><button type="button" data-categorie="Chaussures" class="btn-open-construction hover:text-brandBlue transition text-left cursor-pointer bg-transparent border-none p-0 text-textGray">Chaussures</button></li>
+                    <li><button type="button" data-categorie="Sacs" class="btn-open-construction hover:text-brandBlue transition text-left cursor-pointer bg-transparent border-none p-0 text-textGray">Sacs et bagagerie</button></li>
+                    <li><button type="button" data-categorie="Balles" class="btn-open-construction hover:text-brandBlue transition text-left cursor-pointer bg-transparent border-none p-0 text-textGray">Balles et accessoires</button></li>
+                </ul>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wider">Navigation</h4>
+                <ul class="space-y-2.5">
+                    <li><a href="index.html" class="hover:text-brandBlue transition">Accueil</a></li>
+                    <li><button type="button" class="btn-open-about hover:text-brandBlue transition focus:outline-none">À propos</button></li>
+                </ul>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wider">Padel Hub</h4>
+                <p class="text-xs text-textGray">« Actualisation régulière des prix et application des codes promo valides auprès des sites marchands. »</p>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 border-t border-gray-100 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-textGray gap-4">
+            <p>© Padel Hub — Le comparateur Padel. Tous droits réservés.</p>
+            <div class="flex items-center space-x-6">
+                <!-- Bouton Mentions Légales -->
+                <button type="button" id="btn-open-legal" class="hover:text-brandBlue transition focus:outline-none bg-transparent border-none cursor-pointer p-0 text-xs text-textGray">Mentions légales</button>
+                <!-- Bouton Politique de confidentialité -->
+                <button type="button" id="btn-open-privacy" class="hover:text-brandBlue transition focus:outline-none bg-transparent border-none cursor-pointer p-0 text-xs text-textGray">Politique de confidentialité</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- GESTION DU CARROUSEL ANIMÉ (Glissement + Fondu fluide) ---
+            const slidePromo = document.getElementById('hero-slide-promo');
+            const slideImage = document.getElementById('hero-slide-image');
+            let showingPromo = true;
+
+            function toggleHeroSlide() {
+                if (showingPromo) {
+                    // La promo glisse vers la gauche et s'efface
+                    slidePromo.classList.remove('opacity-100', 'translate-x-0');
+                    slidePromo.classList.add('opacity-0', '-translate-x-12', 'pointer-events-none');
+                    
+                    // L'image de la raquette arrive de la droite en s'affichant
+                    slideImage.classList.remove('opacity-0', 'translate-x-12', 'pointer-events-none');
+                    slideImage.classList.add('opacity-100', 'translate-x-0');
+                } else {
+                    // L'image de la raquette repart vers la droite en s'effaçant
+                    slideImage.classList.remove('opacity-100', 'translate-x-0');
+                    slideImage.classList.add('opacity-0', 'translate-x-12', 'pointer-events-none');
+                    
+                    // La promo revient par la gauche
+                    slidePromo.classList.remove('opacity-0', '-translate-x-12', 'pointer-events-none');
+                    slidePromo.classList.add('opacity-100', 'translate-x-0');
+                }
+                showingPromo = !showingPromo;
+            }
+
+            // Alterne toutes les 5 secondes (5000 ms)
+            setInterval(toggleHeroSlide, 5000);
+
+
+            // --- GESTION MODALE "À PROPOS" ---
+            const aboutModal = document.getElementById('aboutModal');
+            const openAboutBtns = document.querySelectorAll('.btn-open-about');
+            const closeAboutModal = document.getElementById('closeAboutModal');
+            const closeAboutModalBtn = document.getElementById('closeAboutModalBtn');
+
+            function showAboutModal() { aboutModal.classList.remove('hidden'); }
+            function hideAboutModal() { aboutModal.classList.add('hidden'); }
+
+            openAboutBtns.forEach(btn => btn.addEventListener('click', showAboutModal));
+            if (closeAboutModal) closeAboutModal.addEventListener('click', hideAboutModal);
+            if (closeAboutModalBtn) closeAboutModalBtn.addEventListener('click', hideAboutModal);
+
+            // --- GESTION MODALE "MENTIONS LÉGALES" (Fetch externe) ---
+            const legalModal = document.getElementById('legalModal');
+            const btnOpenLegal = document.getElementById('btn-open-legal');
+            const closeLegalModal = document.getElementById('closeLegalModal');
+            const closeLegalModalBtn = document.getElementById('closeLegalModalBtn');
+            const legalModalContent = document.getElementById('legalModalContent');
+            let isLegalContentLoaded = false;
+
+            function showLegalModal() {
+                legalModal.classList.remove('hidden');
+                if (!isLegalContentLoaded) {
+                    fetch('mentions-legales-content.html')
+                        .then(response => {
+                            if (!response.ok) throw new Error('Erreur de chargement');
+                            return response.text();
+                        })
+                        .then(html => {
+                            legalModalContent.innerHTML = html;
+                            isLegalContentLoaded = true;
+                        })
+                        .catch(() => {
+                            legalModalContent.innerHTML = '<p class="text-red-500 text-center py-4">Impossible de charger le contenu des mentions légales.</p>';
+                        });
+                }
+            }
+
+            function hideLegalModal() { legalModal.classList.add('hidden'); }
+
+            if (btnOpenLegal) btnOpenLegal.addEventListener('click', showLegalModal);
+            if (closeLegalModal) closeLegalModal.addEventListener('click', hideLegalModal);
+            if (closeLegalModalBtn) closeLegalModalBtn.addEventListener('click', hideLegalModal);
+
+            // --- GESTION MODALE "POLITIQUE DE CONFIDENTIALITÉ" (Fetch externe) ---
+            const privacyModal = document.getElementById('privacyModal');
+            const btnOpenPrivacy = document.getElementById('btn-open-privacy');
+            const closePrivacyModal = document.getElementById('closePrivacyModal');
+            const closePrivacyModalBtn = document.getElementById('closePrivacyModalBtn');
+            const privacyModalContent = document.getElementById('privacyModalContent');
+            let isPrivacyContentLoaded = false;
+
+            function showPrivacyModal() {
+                privacyModal.classList.remove('hidden');
+                if (!isPrivacyContentLoaded) {
+                    fetch('politique-confidentialite-content.html')
+                        .then(response => {
+                            if (!response.ok) throw new Error('Erreur de chargement');
+                            return response.text();
+                        })
+                        .then(html => {
+                            privacyModalContent.innerHTML = html;
+                            isPrivacyContentLoaded = true;
+                        })
+                        .catch(() => {
+                            privacyModalContent.innerHTML = '<p class="text-red-500 text-center py-4">Impossible de charger le contenu de la politique de confidentialité.</p>';
+                        });
+                }
+            }
+
+            function hidePrivacyModal() { privacyModal.classList.add('hidden'); }
+
+            if (btnOpenPrivacy) btnOpenPrivacy.addEventListener('click', showPrivacyModal);
+            if (closePrivacyModal) closePrivacyModal.addEventListener('click', hidePrivacyModal);
+            if (closePrivacyModalBtn) closePrivacyModalBtn.addEventListener('click', hidePrivacyModal);
+
+            // --- GESTION MODALE "EN CONSTRUCTION" ---
+            const constructionModal = document.getElementById('constructionModal');
+            const openConstructionBtns = document.querySelectorAll('.btn-open-construction');
+            const closeConstructionConstruction = document.getElementById('closeConstructionModal');
+            const closeConstructionBtn = document.getElementById('closeConstructionBtn');
+            const categoryNameSpan = document.getElementById('categoryName');
+
+            openConstructionBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const category = btn.getAttribute('data-categorie');
+                    categoryNameSpan.textContent = category;
+                    constructionModal.classList.remove('hidden');
+                });
+            });
+
+            function hideConstructionModal() {
+                constructionModal.classList.add('hidden');
+            }
+
+            if (closeConstructionModal) closeConstructionModal.addEventListener('click', hideConstructionModal);
+            if (closeConstructionBtn) closeConstructionBtn.addEventListener('click', hideConstructionModal);
+
+            // --- FERMETURES GLOBALES (Clic extérieur / Touche Échap) ---
+            window.addEventListener('click', (e) => {
+                if (e.target === aboutModal) hideAboutModal();
+                if (e.target === legalModal) hideLegalModal();
+                if (e.target === privacyModal) hidePrivacyModal();
+                if (e.target === constructionModal) hideConstructionModal();
+            });
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    hideAboutModal();
+                    hideLegalModal();
+                    hidePrivacyModal();
+                    hideConstructionModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
