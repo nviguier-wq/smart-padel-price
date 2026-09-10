@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparateur Padel - Padel Hub</title>
+    <title>Comparateur Smart-Padel-Price</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -81,7 +81,7 @@
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <a href="index.html" class="flex items-center space-x-3">
-                    <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Padel Hub" class="h-10 w-auto object-contain">
+                    <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Smart Padel Price" class="h-10 w-auto object-contain">
                 </a>
             </div>
             
@@ -346,16 +346,16 @@
             </button>
 
             <div class="text-center space-y-4 pb-6 border-b border-gray-100">
-                <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Padel Hub Logo" class="h-12 w-auto mx-auto object-contain">
+                <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Smart Padel Price Logo" class="h-12 w-auto mx-auto object-contain">
                 <div>
-                    <h3 class="text-2xl font-extrabold text-navy">À propos de Padel Hub</h3>
+                    <h3 class="text-2xl font-extrabold text-navy">À propos de Smart Padel Price</h3>
                     <p class="text-xs font-semibold text-brandBlue uppercase tracking-wider mt-1">Le 1er comparateur 100% Padel</p>
                 </div>
             </div>
 
             <div class="py-6 space-y-6 text-sm text-textGray leading-relaxed">
                 <p>
-                    <strong class="text-gray-900">Padel Hub</strong> est né d'une ambition simple : aider les passionnés de padel à trouver leur équipement idéal au meilleur prix, sans perdre de temps à scruter des dizaines de boutiques en ligne.
+                    <strong class="text-gray-900">Smart Padel Price</strong> est né d'une ambition simple : aider les passionnés de padel à trouver leur équipement idéal au meilleur prix, sans perdre de temps à scruter des dizaines de boutiques en ligne.
                 </p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
@@ -399,7 +399,7 @@
             <!-- En-tête / Bannière Partenaire -->
             <div class="bg-brandBlue p-6 text-white text-center space-y-2">
                 <span class="text-xs font-semibold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Partenaire Officiel</span>
-                <h3 id="partnerModalTitle" class="text-xl font-extrabold">Padel Hub x Cap Padel</h3>
+                <h3 id="partnerModalTitle" class="text-xl font-extrabold">Smart Padel Price x Cap Padel</h3>
                 <p class="text-xs text-lightBlue">Soutenez notre club partenaire tout en profitant de votre redirection.</p>
             </div>
 
@@ -712,7 +712,7 @@
                             // 2. Ton partenaire (ex: Cap Padel) reste fixe en haut de la modale
                             const partnerName = "CAP PADEL";
                             const partnerUrl = "https://cappadel.com/";
-                            partnerModalTitle.innerText = `Padel Hub x ${partnerName}`;
+                            partnerModalTitle.innerText = `Smart Padel Price x ${partnerName}`;
                             partnerLogoLink.href = partnerUrl;
                             partnerLogoImg.src = "{{ url_for('static', filename='img/banniere-partenaire.png') }}";
 
