@@ -63,25 +63,30 @@ def nettoyer_noms_produits():
     conn.commit()
     conn.close()
 
-def normaliser_pour_regroupement(nom, marque, url):
-    """Génère une empreinte unique en intégrant l'année (2026 par défaut si absente)."""
-    if not nom: return ""
-    
-    texte_complet = f"{nom} {url}".lower()
-    
-    annee_match = re.search(r'\b(202\d|203\d)\b', texte_complet)
-    annee_str = annee_match.group(1) if annee_match else "2026"
+def normaliser_pour_regroupement(nom, marque, url=""):
+    """Génère une empreinte unique pour regrouper les raquettes identiques des différents marchands."""
+    if not nom: 
+        return ""
     
     texte = nom.lower()
-    if marque: texte = texte.replace(marque.lower(), "")
-        
-    parasites = ["raquette", "de", "padel", "pala", "edition", "exclusive", "by", "agustin", "tapia", "alum", "pack", "line"]
-    for p in parasites: texte = texte.replace(p, "")
     
-    if annee_str in texte: texte = texte.replace(annee_str, "")
+    # Suppression du nom de la marque si présent dans le nom
+    if marque: 
+        texte = texte.replace(marque.lower(), "")
         
+    # Parasites à retirer pour harmoniser les dénominations entre marchands
+    parasites = [
+        "raquette", "de", "padel", "pala", "edition", "exclusive", 
+        "by", "agustin", "tapia", "alum", "pack", "line", "ltd", "v2",
+        "2023", "2024", "2025", "2026", "2027"
+    ]
+    
+    for p in parasites:
+        texte = re.sub(r'\b' + re.escape(p) + r'\b', ' ', texte, flags=re.IGNORECASE)
+        
+    # Conserver uniquement les caractères alphanumériques
     pur = re.sub(r'[^a-z0-9]', '', texte)
-    return f"{pur}_{annee_str}"
+    return pur
 
 def mettre_a_jour_marques():
     conn = get_db_connection()
@@ -129,46 +134,46 @@ def index():
 @app.route('/comparateur')
 @app.route('/comparateur.html')
 def comparateur():
-    nettoyer_noms_produits()
-    mettre_a_jour_marques()
     liste_marques = obtenir_toutes_les_marques()
     
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # 1. Récupération des filtres et du Tri
-    search_query = request.args.get('q', '').strip()
-    selected_cats = request.args.getlist('cat')
-    selected_marques = request.args.getlist('marque')
-    sort_option = request.args.get('sort', 'default').strip() # 'asc', 'desc', ou 'default'
-    
-    single_marque = request.args.get('marque', '').strip()
-    if single_marque and single_marque not in selected_marques:
-        selected_marques.append(single_marque)
-
-    prix_min_filter = request.args.get('prix_min', type=float, default=0.0)
-    prix_max_filter = request.args.get('prix_max', type=float, default=800.0)
-
-    # 2. Requête SQL
-    query = "SELECT r.*, p.nom_produit, p.marque, p.url_image FROM raquettes r LEFT JOIN produits p ON r.produit_id = p.id WHERE 1=1"
-    params = []
-    
-    if search_query:
-        query += " AND (p.nom_produit LIKE ? OR p.marque LIKE ? OR r.site_marchand LIKE ?)"
-        params.extend([f"%{search_query}%", f"%{search_query}%", f"%{search_query}%"])
+    try:
+        # 1. Récupération des filtres et du tri
+        search_query = request.args.get('q', '').strip()
+        selected_cats = request.args.getlist('cat')
+        selected_marques = request.args.getlist('marque')
+        sort_option = request.args.get('sort', 'default').strip() # 'asc', 'desc', ou 'default'
         
-    if selected_marques:
-        placeholders = ', '.join(['?'] * len(selected_marques))
-        query += f" AND p.marque IN ({placeholders})"
-        params.extend(selected_marques)
+        single_marque = request.args.get('marque', '').strip()
+        if single_marque and single_marque not in selected_marques:
+            selected_marques.append(single_marque)
 
-    if selected_cats and 'raquettes' not in selected_cats:
-        lignes = []
-    else:
-        lignes = cursor.execute(query, params).fetchall()
-    conn.close()
+        prix_min_filter = request.args.get('prix_min', type=float, default=0.0)
+        prix_max_filter = request.args.get('prix_max', type=float, default=800.0)
 
-    # 3. Regroupement des offres
+        # 2. Requête SQL
+        query = "SELECT r.*, p.nom_produit, p.marque, p.url_image FROM raquettes r LEFT JOIN produits p ON r.produit_id = p.id WHERE 1=1"
+        params = []
+        
+        if search_query:
+            query += " AND (p.nom_produit LIKE ? OR p.marque LIKE ? OR r.site_marchand LIKE ?)"
+            params.extend([f"%{search_query}%", f"%{search_query}%", f"%{search_query}%"])
+            
+        if selected_marques:
+            placeholders = ', '.join(['?'] * len(selected_marques))
+            query += f" AND p.marque IN ({placeholders})"
+            params.extend(selected_marques)
+
+        if selected_cats and 'raquettes' not in selected_cats:
+            lignes = []
+        else:
+            lignes = cursor.execute(query, params).fetchall()
+    finally:
+        conn.close()
+
+    # 3. Regroupement intelligent des offres par modèle unique
     produits_dict = {}
     for row in lignes:
         item = dict(row)
@@ -181,22 +186,38 @@ def comparateur():
         
         if cle_regroupement not in produits_dict:
             produits_dict[cle_regroupement] = {
-                'marque': marque_produit, 'nom': nom_produit, 'image': item.get('url_image'), 'offres': []
+                'marque': marque_produit, 
+                'nom': nom_produit, 
+                'image': item.get('url_image'), 
+                'offres': []
             }
         
+        # Compléter visuel produit si manquant
         if not produits_dict[cle_regroupement]['image'] and item.get('url_image'):
             produits_dict[cle_regroupement]['image'] = item.get('url_image')
         
         prix_final = item.get('meilleur_prix') if item.get('meilleur_prix') is not None else item.get('prix_base')
-        sites_deja_presents = [o['site'] for o in produits_dict[cle_regroupement]['offres']]
         site_actuel = item.get('site_marchand', 'Marchand')
         
-        if site_actuel not in sites_deja_presents:
+        # Déduplication des offres d'un même marchand pour ce produit
+        existing_offer = next((o for o in produits_dict[cle_regroupement]['offres'] if o['site'] == site_actuel), None)
+        
+        if existing_offer is None:
             produits_dict[cle_regroupement]['offres'].append({
-                'site': site_actuel, 'prix': prix_final, 'url': url_produit, 'code_promo': item.get('code_gagnant')
+                'site': site_actuel, 
+                'prix': prix_final, 
+                'url': url_produit, 
+                'code_promo': item.get('code_gagnant')
             })
+        else:
+            prix_existant = clean_price_val(existing_offer.get('prix'))
+            nouveau_prix = clean_price_val(prix_final)
+            if nouveau_prix is not None and (prix_existant is None or nouveau_prix < prix_existant):
+                existing_offer['prix'] = prix_final
+                existing_offer['url'] = url_produit
+                existing_offer['code_promo'] = item.get('code_gagnant')
 
-    # 4. Calcul du prix minimal, tri des offres par prix et filtrage
+    # 4. Calcul du prix minimal, tri des offres et filtrage par prix
     produits_filtres = []
     for prod in produits_dict.values():
         offres = prod['offres']
@@ -222,7 +243,7 @@ def comparateur():
         elif min_p is None and prix_min_filter == 0.0:
             produits_filtres.append(prod)
 
-    # 5. Tri des produits par prix
+    # 5. Tri des cartes produits par prix
     if sort_option == 'asc':
         produits_filtres.sort(key=lambda x: x['prix_min'] if x['prix_min'] is not None else float('inf'))
     elif sort_option == 'desc':
@@ -244,8 +265,10 @@ def admin_panel():
 
 @app.route('/admin/nettoyer_base', methods=['POST'])
 def nettoyer_base():
+    nettoyer_noms_produits()
+    mettre_a_jour_marques()
     nb = supprimer_doublons_sql()
-    return f'<script>alert("Maintenance terminée : {nb} doublons supprimés !"); window.location.href = "/admin";</script>'
+    return f'<script>alert("Maintenance terminée : Noms nettoyés, marques mises à jour et {nb} doublons supprimés !"); window.location.href = "/admin";</script>'
 
 @app.route('/admin/run/<script_type>/<script_name>', methods=['POST'])
 def run_script(script_type, script_name):
