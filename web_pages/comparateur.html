@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comparateur Smart-Padel-Price</title>
+
+    <!-- FAVICON GOOGLE -->
+    <link rel="icon" href="web_pages\assets\img\IMGLOGOREF.png" type="image/png">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -407,7 +411,7 @@
             <div class="p-6 space-y-6 text-center">
                 
                 <!-- ENCADRÉ MIS À JOUR : Hauteur fixe, gestion du débordement et image ajustée -->
-                <a id="partnerLogoLink" href="https://cappadel.com/" target="_blank" class="rounded-xl border border-gray-200 bg-bgGray p-2 flex items-center justify-center h-28 hover:border-brandBlue transition group block relative overflow-hidden">
+                <a id="partnerLogoLink" href="https://smart-padel-price.fr/" target="_blank" class="rounded-xl border border-gray-200 bg-bgGray p-2 flex items-center justify-center h-28 hover:border-brandBlue transition group block relative overflow-hidden">
                     <span class="absolute top-2 right-2 text-[10px] font-semibold text-textGray bg-white px-2 py-0.5 rounded shadow-sm group-hover:text-brandBlue transition z-10">Visiter le site <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i></span>
                     <img id="partnerLogoImg" src="{{ url_for('static', filename='img/banniere-partenaire.png') }}" alt="Cap Padel" class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition duration-300">
                 </a>
@@ -710,8 +714,8 @@
                             partnerExternalLink.href = targetUrl && targetUrl !== '#' ? targetUrl : '#';
 
                             // 2. Ton partenaire (ex: Cap Padel) reste fixe en haut de la modale
-                            const partnerName = "CAP PADEL";
-                            const partnerUrl = "https://cappadel.com/";
+                            const partnerName = "SMART PADEL PRICE";
+                            const partnerUrl = "https://smart-padel-price.fr/";
                             partnerModalTitle.innerText = `Smart Padel Price x ${partnerName}`;
                             partnerLogoLink.href = partnerUrl;
                             partnerLogoImg.src = "{{ url_for('static', filename='img/banniere-partenaire.png') }}";
