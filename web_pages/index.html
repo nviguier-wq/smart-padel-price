@@ -120,24 +120,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <!-- Conteneur global ajusté avec des bordures douces et sans padding interne pour que l'image touche les bords -->
                     <div class="relative w-full max-w-[460px] h-[320px] sm:h-[360px] rounded-3xl bg-white shadow-xl border border-gray-100 overflow-hidden flex items-center justify-center">
                         
-                        <!-- SLIDE 1 : L'encart publicitaire en plein format -->
-                        <div id="hero-slide-promo" class="hero-slide absolute inset-0 w-full h-full opacity-100 translate-x-0">
+                        <!-- SLIDE 1 : L'encart publicitaire en plein format (Actif par défaut au chargement) -->
+                        <div class="hero-slide absolute inset-0 w-full h-full opacity-100 translate-x-0">
                             <a href="https://smart-padel-price.fr/" target="_blank" rel="nofollow noopener" class="w-full h-full block">
                                 <img src="assets/img/banniere-partenaire.png" alt="Offre Partenaire" class="w-full h-full object-cover transform hover:scale-105 transition duration-950" loading="lazy">
                             </a>
-                          </div>
-                         <!-- SLIDE 3 : L'encart publicitaire en plein format V2 -->
-                        <div id="hero-slide-promo" class="hero-slide absolute inset-0 w-full h-full opacity-100 translate-x-0">
+                        </div>
+                        
+                        <!-- SLIDE 3 : L'encart publicitaire en plein format V2 (Caché au départ) -->
+                        <div class="hero-slide absolute inset-0 w-full h-full opacity-0 translate-x-12 pointer-events-none">
                             <a href="https://smart-padel-price.fr/" target="_blank" rel="nofollow noopener" class="w-full h-full block">
                                 <img src="assets/img/SMART PADEL PRICE COMMUNICATION.jpeg" alt="Offre Partenaire Exclusive" class="w-full h-full object-cover transform hover:scale-105 transition duration-950" loading="lazy">
                             </a>
-                            </div>
-                        <!-- SLIDE 2 : L'image de la raquette et de la balle en plein format -->
-                        <div id="hero-slide-image" class="hero-slide absolute inset-0 w-full h-full opacity-0 translate-x-12 pointer-events-none">
+                        </div>
+                        
+                        <!-- SLIDE 2 : L'image de la raquette et de la balle en plein format (Caché au départ) -->
+                        <div class="hero-slide absolute inset-0 w-full h-full opacity-0 translate-x-12 pointer-events-none">
                             <img src="assets/img/Raquette et balle.png" alt="Raquette et balle de padel" class="w-full h-full object-cover transform hover:scale-105 transition duration-400" loading="lazy">
                         </div>   
-                        </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -466,34 +467,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- SCRIPT JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // --- GESTION DU CARROUSEL ANIMÉ (Glissement + Fondu fluide) ---
-            const slidePromo = document.getElementById('hero-slide-promo');
-            const slideImage = document.getElementById('hero-slide-image');
-            let showingPromo = true;
+            // --- GESTION DU CARROUSEL ANIMÉ (Défilement des 3 slides) ---
+            const slides = document.querySelectorAll('.hero-slide');
+            let currentSlideIndex = 0;
 
-            function toggleHeroSlide() {
-                if (showingPromo) {
-                    // La promo glisse vers la gauche et s'efface
-                    slidePromo.classList.remove('opacity-100', 'translate-x-0');
-                    slidePromo.classList.add('opacity-0', '-translate-x-12', 'pointer-events-none');
-                    
-                    // L'image de la raquette arrive de la droite en s'affichant
-                    slideImage.classList.remove('opacity-0', 'translate-x-12', 'pointer-events-none');
-                    slideImage.classList.add('opacity-100', 'translate-x-0');
-                } else {
-                    // L'image de la raquette repart vers la droite en s'effaçant
-                    slideImage.classList.remove('opacity-100', 'translate-x-0');
-                    slideImage.classList.add('opacity-0', 'translate-x-12', 'pointer-events-none');
-                    
-                    // La promo revient par la gauche
-                    slidePromo.classList.remove('opacity-0', '-translate-x-12', 'pointer-events-none');
-                    slidePromo.classList.add('opacity-100', 'translate-x-0');
-                }
-                showingPromo = !showingPromo;
+            function showNextSlide() {
+                // 1. Masquer le slide actuel
+                slides[currentSlideIndex].classList.remove('opacity-100', 'translate-x-0');
+                slides[currentSlideIndex].classList.add('opacity-0', '-translate-x-12', 'pointer-events-none');
+                
+                // 2. Passer au slide suivant en boucle (0 -> 1 -> 2 -> 0...)
+                currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+
+                // Préparer la position d'arrivée du prochain slide (depuis la droite)
+                slides[currentSlideIndex].classList.remove('translate-x-0', '-translate-x-12');
+                slides[currentSlideIndex].classList.add('translate-x-12');
+
+                // Forcer un petit temps de rafraîchissement du navigateur pour appliquer le placement
+                setTimeout(() => {
+                    slides[currentSlideIndex].classList.remove('opacity-0', 'translate-x-12', 'pointer-events-none');
+                    slides[currentSlideIndex].classList.add('opacity-100', 'translate-x-0');
+                }, 50);
             }
 
-            // Alterne toutes les 5 secondes (5000 ms)
-            setInterval(toggleHeroSlide, 5000);
+            // Alterne toutes les 5 secondes (5000 ms) s'il y a plus d'un slide
+            if (slides.length > 1) {
+                setInterval(showNextSlide, 5000);
+            }
 
 
             // --- GESTION MODALE "À PROPOS" ---
