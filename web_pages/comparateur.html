@@ -213,7 +213,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <input type="checkbox" name="cat" value="raquettes" {% if 'raquettes' in request.args.getlist('cat') or not request.args.getlist('cat') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
                                 <span>Raquettes</span>
                             </label>
-                            <label class="flex items-center gap-2.5 cursor-pointer hover:text-gray-900">
+                            {# 
+                          <label class="flex items-center gap-2.5 cursor-pointer hover:text-gray-900">
                                 <input type="checkbox" name="cat" value="chaussures" {% if 'chaussures' in request.args.getlist('cat') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
                                 <span>Chaussures</span>
                             </label>
@@ -225,6 +226,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <input type="checkbox" name="cat" value="balles" {% if 'balles' in request.args.getlist('cat') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
                                 <span>Balles & Accessoires</span>
                             </label>
+                          #}
                         </div>
                     </div>
 
