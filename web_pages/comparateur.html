@@ -178,12 +178,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <div class="flex items-center justify-between">
                             <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Prix</h4>
                             <span class="text-xs font-semibold text-brandBlue bg-lightBlue px-2.5 py-1 rounded-md">
-                                <span id="price-min-display">{{ prix_min if prix_min is defined else request.args.get('prix_min', 0) }}</span> € - <span id="price-max-display">{{ prix_max if prix_max is defined else request.args.get('prix_max', 2200) }}</span> €
+                                <span id="price-min-display">{{ prix_min if prix_min is defined else request.args.get('prix_min', 0) }}</span> € - <span id="price-max-display">{{ prix_max if prix_max is defined else (2500 if (request.args.getlist('marque') or request.args.get('sort') == 'desc') else request.args.get('prix_max', 2200)) }}</span> €
                             </span>
                         </div>
 
                         <input type="hidden" name="prix_min" id="prix_min_input" value="{{ prix_min if prix_min is defined else request.args.get('prix_min', 0) }}">
-                        <input type="hidden" name="prix_max" id="prix_max_input" value="{{ prix_max if prix_max is defined else request.args.get('prix_max', 2500) }}">
+                        <input type="hidden" name="prix_max" id="prix_max_input" value="{{ prix_max if prix_max is defined else (2500 if (request.args.getlist('marque') or request.args.get('sort') == 'desc') else request.args.get('prix_max', 2200)) }}">
 
                         <div class="relative w-full pt-4 pb-2">
                             <div class="h-1.5 w-full bg-gray-200 rounded-lg absolute top-1/2 -translate-y-1/2"></div>
@@ -194,13 +194,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                    class="absolute w-full top-1/2 -translate-y-1/2 appearance-none bg-transparent pointer-events-none z-20 range-slider">
                             
                             <input type="range" id="range-max" min="0" max="2500" step="10" 
-                                   value="{{ prix_max if prix_max is defined else request.args.get('prix_max', 2500) }}" 
+                                   value="{{ prix_max if prix_max is defined else (2500 if (request.args.getlist('marque') or request.args.get('sort') == 'desc') else request.args.get('prix_max', 2200)) }}" 
                                    class="absolute w-full top-1/2 -translate-y-1/2 appearance-none bg-transparent pointer-events-none z-20 range-slider">
                         </div>
 
                         <div class="flex justify-between text-[11px] text-textGray font-medium">
                             <span>0 €</span>
-                            <span>2200 €</span>
+                            <span>1000 €</span>
                             <span>2500 €</span>
                         </div>
                     </div>
@@ -213,20 +213,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <input type="checkbox" name="cat" value="raquettes" {% if 'raquettes' in request.args.getlist('cat') or not request.args.getlist('cat') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
                                 <span>Raquettes</span>
                             </label>
-                            {# 
-                          <label class="flex items-center gap-2.5 cursor-pointer hover:text-gray-900">
-                                <input type="checkbox" name="cat" value="chaussures" {% if 'chaussures' in request.args.getlist('cat') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
-                                <span>Chaussures</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 cursor-pointer hover:text-gray-900">
-                                <input type="checkbox" name="cat" value="sacs" {% if 'sacs' in request.args.getlist('cat') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
-                                <span>Sacs</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 cursor-pointer hover:text-gray-900">
-                                <input type="checkbox" name="cat" value="balles" {% if 'balles' in request.args.getlist('cat') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
-                                <span>Balles & Accessoires</span>
-                            </label>
-                          #}
                         </div>
                     </div>
 
@@ -483,6 +469,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const sliderTrack = document.getElementById('slider-track');
             const filterForm = document.getElementById('filterForm');
 
+            // 1.1 Réinitialisation dynamique automatique si une marque est cochée ou si tri "desc"
+            const brandCheckboxes = document.querySelectorAll('input[name="marque"]');
+            const sortSelect = document.getElementById('sortSelect');
+
+            function checkAndResetMaxPrice() {
+                const brandSelected = Array.from(brandCheckboxes).some(cb => cb.checked);
+                const isDescSort = sortSelect && sortSelect.value === 'desc';
+                
+                if (brandSelected || isDescSort) {
+                    if (rangeMax) rangeMax.value = 2500;
+                    if (prixMaxInput) prixMaxInput.value = 2500;
+                    if (maxDisplay) maxDisplay.textContent = '2500';
+                }
+            }
+
+            // Exécution au chargement si une marque est déjà sélectionnée ou si tri desc
+            checkAndResetMaxPrice();
+
             const minGap = 20;
             const maxVal = parseInt(rangeMin ? rangeMin.max : 2500);
 
@@ -523,6 +527,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 rangeMax.addEventListener('change', () => { if (filterForm) filterForm.submit(); });
 
                 updatePriceSlider();
+            }
+
+            // Écouteurs sur les marques et le tri pour forcer le max à 2500 dynamiquement
+            brandCheckboxes.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    checkAndResetMaxPrice();
+                    if (filterForm) filterForm.submit();
+                });
+            });
+
+            if (sortSelect) {
+                sortSelect.addEventListener('change', () => {
+                    checkAndResetMaxPrice();
+                    if (filterForm) filterForm.submit();
+                });
             }
 
             // 2. GESTION DE LA MODALE "À PROPOS"
@@ -738,7 +757,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             merchantNameText.innerText = siteName;
                             partnerExternalLink.href = targetUrl && targetUrl !== '#' ? targetUrl : '#';
 
-                            // 2. Ton partenaire (ex: Cap Padel) reste fixe en haut de la modale
+                            // 2. Ton partenaire reste fixe en haut de la modale
                             const partnerName = "SMART PADEL PRICE";
                             const partnerUrl = "https://smart-padel-price.fr/";
                             partnerModalTitle.innerText = `Smart Padel Price x ${partnerName}`;
