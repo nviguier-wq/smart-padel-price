@@ -151,8 +151,15 @@ def comparateur():
             selected_marques.append(single_marque)
 
         prix_min_filter = request.args.get('prix_min', type=float, default=0.0)
-        prix_max_filter = request.args.get('prix_max', type=float, default=800.0)
-
+        
+        # Gestion dynamique intelligente du prix max par défaut
+        if 'prix_max' in request.args:
+            prix_max_filter = request.args.get('prix_max', type=float, default=800.0)
+        else:
+            if selected_marques or sort_option == 'desc':
+                prix_max_filter = 2500.0
+            else:
+                prix_max_filter = 800.0
         # 2. Requête SQL
         query = "SELECT r.*, p.nom_produit, p.marque, p.url_image FROM raquettes r LEFT JOIN produits p ON r.produit_id = p.id WHERE 1=1"
         params = []
