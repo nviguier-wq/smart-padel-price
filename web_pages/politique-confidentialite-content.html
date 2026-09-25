@@ -1,53 +1,126 @@
-<div class="space-y-6 text-sm text-textGray leading-relaxed">
-    <div class="bg-lightBlue p-4 rounded-2xl border border-blue-100 text-navy font-medium text-center space-y-2">
-        <p>Sur Smart Padel Price, la transparence est totale : notre site est un simple comparateur de prix indépendant.</p>
-        <p>Aucune création de compte, aucun achat et aucune collecte active de données personnelles ne sont réalisés sur notre plateforme.</p>
+<div style="font-family: sans-serif; color: #333; line-height: 1.6; font-size: 14px;">
+    <!-- SECTION POLITIQUE DE CONFIDENTIALITÉ -->
+    <div id="vuePolitique">
+        <div style="background-color: #f0f7ff; padding: 16px; border-radius: 12px; border: 1px solid #d0e3ff; text-align: center; margin-bottom: 24px;">
+            <p style="margin: 0 0 8px 0; font-weight: 500;">Sur Smart Padel Price, la transparence est totale : notre site est un simple comparateur de prix indépendant.</p>
+            <p style="margin: 0; font-weight: 500;">Aucune création de compte, aucun achat et aucune collecte active de données personnelles ne sont réalisés sur notre plateforme.</p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4 style="font-weight: bold; color: #111; font-size: 16px; margin-bottom: 8px;">1. Absence de collecte de données personnelles</h4>
+            <p style="margin: 0;">Smart Padel Price ne demande aucune inscription, aucun mot de passe et aucune information nominative (pas d'e-mail, pas d'adresse postale, pas de données bancaires).</p>
+            <p style="margin: 8px 0 0 0;">Vous utilisez le comparateur de manière entièrement anonyme.</p>
+            <p style="margin: 8px 0 0 0;">Lorsque vous trouvez une offre qui vous intéresse, vous êtes redirigé vers le site marchand partenaire de votre choix pour finaliser votre achat. Smart Padel Price n'intervient jamais dans la transaction et ne reçoit aucune donnée personnelle vous concernant de la part de ces sites marchands.</p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4 style="font-weight: bold; color: #111; font-size: 16px; margin-bottom: 8px;">2. Données techniques et Hébergement</h4>
+            <p style="margin: 0;">Les seules données traitées le sont de manière technique et automatique par notre hébergeur web pour assurer le bon fonctionnement et la sécurité du site (comme l'adresse IP de connexion ou les journaux de trafic de base). Ces données ne sont ni exploitées à des fins commerciales ni recoupées avec des profils d'utilisateurs.</p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4 style="font-weight: bold; color: #111; font-size: 16px; margin-bottom: 8px;">3. Utilisation de cookies</h4>
+            <p style="margin: 0;">Smart Padel Price n'utilise pas de cookies publicitaires ou de traçage intrusif. Seuls des cookies techniques strictement nécessaires au fonctionnement du site peuvent le cas échéant être déposés sur votre terminal par notre hébergeur.</p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4 style="font-weight: bold; color: #111; font-size: 16px; margin-bottom: 8px;">4. Liens vers des sites tiers</h4>
+            <p style="margin: 0;">Smart Padel Price contient des liens hypertextes de redirection vers des sites e-commerce partenaires.</p>
+            <p style="margin: 8px 0 0 0;">En cliquant sur ces liens, vous quittez notre plateforme.</p>
+            <p style="margin: 8px 0 0 0;">Nous vous invitons à consulter les politiques de confidentialité propres à chaque site marchand partenaire, sur lesquels Smart Padel Price n'exerce aucun contrôle quant à la gestion de vos données.</p>
+        </div>
+
+        <div>
+            <h4 style="font-weight: bold; color: #111; font-size: 16px; margin-bottom: 8px;">5. Contact</h4>
+            <p style="margin: 0;">
+                Pour toute question concernant le fonctionnement de notre comparateur, vous pouvez nous contacter en ouvrant notre 
+                <button type="button" id="btnAfficherFormulaire" style="color: #2563eb; background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-decoration: underline; font-weight: 500;">formulaire de contact</button>.
+            </p>
+        </div>
     </div>
 
-    <div>
-        <h4 class="font-bold text-gray-900 text-base mb-2">1. Absence de collecte de données personnelles</h4>
-        <p>
-            Smart Padel Price ne demande aucune inscription, aucun mot de passe et aucune information nominative (pas d'e-mail, pas d'adresse postale, pas de données bancaires).
-        </p>
-        <p class="mt-2">
-            Vous utilisez le comparateur de manière entièrement anonyme.
-        </p>
-        <p class="mt-2">
-            Lorsque vous trouvez une offre qui vous intéresse, vous êtes redirigé vers le site marchand partenaire de votre choix pour finaliser votre achat. Smart Padel Price n'intervient jamais dans la transaction et ne reçoit aucune donnée personnelle vous concernant de la part de ces sites marchands.
-        </p>
-    </div>
+    <!-- SECTION FORMULAIRE DE CONTACT -->
+    <div id="vueFormulaire" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+            <h3 style="margin: 0; font-size: 16px; font-weight: bold; color: #111;">Formulaire de contact</h3>
+            <button type="button" id="btnRetourPolitique" style="background: none; border: none; color: #2563eb; font-size: 13px; cursor: pointer; text-decoration: underline;">&larr; Retour à la politique</button>
+        </div>
 
-    <div>
-        <h4 class="font-bold text-gray-900 text-base mb-2">2. Données techniques et Hébergement</h4>
-        <p>
-            Les seules données traitées le sont de manière technique et automatique par notre hébergeur web pour assurer le bon fonctionnement et la sécurité du site (comme l'adresse IP de connexion ou les journaux de trafic de base). Ces données ne sont ni exploitées à des fins commerciales ni recoupées avec des profils d'utilisateurs.
-        </p>
-    </div>
+        <form id="formContact">
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 13px; font-weight: 500; color: #444; margin-bottom: 6px;">Objet de la demande</label>
+                <select id="contactObjet" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+                    <option value="" disabled selected>Choisissez un objet</option>
+                    <option value="Demande de renseignements">Demande de renseignements</option>
+                    <option value="Demande d'information">Demande d'information</option>
+                    <option value="Demande de partenariat">Demande de partenariat</option>
+                </select>
+            </div>
 
-    <div>
-        <h4 class="font-bold text-gray-900 text-base mb-2">3. Utilisation de cookies</h4>
-        <p>
-            Smart Padel Price n'utilise pas de cookies publicitaires ou de traçage intrusif. Seuls des cookies techniques strictement nécessaires au fonctionnement du site peuvent le cas échéant être déposés sur votre terminal par notre hébergeur.
-        </p>
-    </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 13px; font-weight: 500; color: #444; margin-bottom: 6px;">Votre message (190 caractères max)</label>
+                <textarea id="contactMessage" maxlength="190" rows="5" required placeholder="Écrivez votre message ici..." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; resize: none; box-sizing: border-box;"></textarea>
+                <div style="text-align: right; font-size: 11px; color: #888; margin-top: 4px;"><span id="compteurCaracteres">190</span> caractères restants</div>
+            </div>
 
-    <div>
-        <h4 class="font-bold text-gray-900 text-base mb-2">4. Liens vers des sites tiers</h4>
-        <p>
-            Smart Padel Price contient des liens hypertextes de redirection vers des sites e-commerce partenaires.
-        </p>
-        <p class="mt-2">
-            En cliquant sur ces liens, vous quittez notre plateforme.
-        </p>
-        <p class="mt-2">
-            Nous vous invitons à consulter les politiques de confidentialité propres à chaque site marchand partenaire, sur lesquels Smart Padel Price n'exerce aucun contrôle quant à la gestion de vos données.
-        </p>
-    </div>
-
-    <div>
-        <h4 class="font-bold text-gray-900 text-base mb-2">5. Contact</h4>
-        <p>
-            Pour toute question concernant le fonctionnement de notre comparateur, vous pouvez nous joindre à l'adresse e-mail suivante : <a href="mailto:contact@smart-padel-price.fr" class="text-brandBlue font-medium hover:underline">contact@smart-padel-price.fr</a>.
-        </p>
+            <div style="text-align: right;">
+                <button type="submit" style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer;">Envoyer le message</button>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+(function() {
+    const vuePolitique = document.getElementById('vuePolitique');
+    const vueFormulaire = document.getElementById('vueFormulaire');
+    const btnAfficher = document.getElementById('btnAfficherFormulaire');
+    const btnRetour = document.getElementById('btnRetourPolitique');
+    const textarea = document.getElementById('contactMessage');
+    const compteur = document.getElementById('compteurCaracteres');
+    const form = document.getElementById('formContact');
+
+    if (btnAfficher) {
+        btnAfficher.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (vuePolitique && vueFormulaire) {
+                vuePolitique.style.display = 'none';
+                vueFormulaire.style.display = 'block';
+            }
+        });
+    }
+
+    if (btnRetour) {
+        btnRetour.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (vuePolitique && vueFormulaire) {
+                vueFormulaire.style.display = 'none';
+                vuePolitique.style.display = 'block';
+            }
+        });
+    }
+
+    if (textarea && compteur) {
+        textarea.addEventListener('input', function() {
+            const reste = 190 - textarea.value.length;
+            compteur.innerText = reste;
+        });
+    }
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const objet = document.getElementById('contactObjet').value;
+            const message = textarea.value;
+            
+            // CORRECTION ICI : Utilisation de la bonne adresse e-mail officielle
+            const destinataire = "contact@smart-padel-price.fr";
+            
+            const sujetMail = encodeURIComponent(`[${objet}] - Contact Smart Padel Price`);
+            const corpsMail = encodeURIComponent(`${message}`);
+            
+            window.location.href = `mailto:${destinataire}?subject=${sujetMail}&body=${corpsMail}`;
+        });
+    }
+})();
+</script>
