@@ -160,13 +160,17 @@ def comparateur():
                 prix_max_filter = 2500.0
             else:
                 prix_max_filter = 800.0
-        # 2. Requête SQL
+                
+        # 2. Requête SQL avec recherche multi-mots souple
         query = "SELECT r.*, p.nom_produit, p.marque, p.url_image FROM raquettes r LEFT JOIN produits p ON r.produit_id = p.id WHERE 1=1"
         params = []
         
         if search_query:
-            query += " AND (p.nom_produit LIKE ? OR p.marque LIKE ? OR r.site_marchand LIKE ?)"
-            params.extend([f"%{search_query}%", f"%{search_query}%", f"%{search_query}%"])
+            # Découpage de la recherche en mots individuels pour tolérer l'ordre (ex: "One Head" trouve "Head ... One")
+            mots = search_query.split()
+            for mot in mots:
+                query += " AND (p.nom_produit LIKE ? OR p.marque LIKE ? OR r.site_marchand LIKE ?)"
+                params.extend([f"%{mot}%", f"%{mot}%", f"%{mot}%"])
             
         if selected_marques:
             placeholders = ', '.join(['?'] * len(selected_marques))
