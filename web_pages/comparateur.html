@@ -152,7 +152,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <form action="comparateur.html" method="GET" class="flex flex-col md:flex-row items-center gap-3">
                     <div class="flex items-center flex-1 px-4 py-2 w-full bg-bgGray rounded-xl border border-gray-200 focus-within:border-brandBlue transition">
                         <i class="fa-solid fa-magnifying-glass text-textGray mr-3"></i>
-                        <input type="text" name="q" value="{{ search_query if search_query else request.args.get('q', '') }}" placeholder="Rechercher une raquette, une marque, un modèle..." class="w-full focus:outline-none text-gray-800 placeholder-textGray bg-transparent text-sm sm:text-base font-normal">
+                        <input type="text" name="q" value="{{ search_query if search_query else request.args.get('q', '') }}" placeholder="Rechercher un produit, une marque, un modèle..." class="w-full focus:outline-none text-gray-800 placeholder-textGray bg-transparent text-sm sm:text-base font-normal">
                     </div>
                     <button type="submit" class="bg-brandBlue hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition w-full md:w-auto shadow-md shadow-brandBlue/20 flex items-center justify-center gap-2">
                         <span>Rechercher</span>
@@ -213,13 +213,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <input type="checkbox" name="cat" value="raquettes" {% if 'raquettes' in request.args.getlist('cat') or not request.args.getlist('cat') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
                                 <span>Raquettes</span>
                             </label>
+                            <label class="flex items-center gap-2.5 cursor-pointer hover:text-gray-900">
+                                <input type="checkbox" name="cat" value="balles" {% if 'balles' in request.args.getlist('cat') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
+                                <span>Balles</span>
+                            </label>
                         </div>
                     </div>
 
-                    <!-- MARQUES -->
+                    <!-- MARQUES (Hauteur agrandie avec max-h-80) -->
                     <div class="space-y-3 border-t border-gray-100 pt-5">
                         <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Marques</h4>
-                        <div class="space-y-2 text-sm text-textGray max-h-48 overflow-y-auto pr-1">
+                        <div class="space-y-2 text-sm text-textGray max-h-80 overflow-y-auto pr-1">
                             {% for marque in marques %}
                                 <label class="flex items-center gap-2.5 cursor-pointer hover:text-gray-900">
                                     <input type="checkbox" name="marque" value="{{ marque }}" {% if marque in request.args.getlist('marque') %}checked{% endif %} class="rounded border-gray-300 text-brandBlue focus:ring-brandBlue">
@@ -459,7 +463,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- SCRIPT JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. GESTION DU DOUBLE CURSEUR DE PRIX
             const rangeMin = document.getElementById('range-min');
             const rangeMax = document.getElementById('range-max');
             const minDisplay = document.getElementById('price-min-display');
@@ -469,9 +472,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const sliderTrack = document.getElementById('slider-track');
             const filterForm = document.getElementById('filterForm');
 
-            // 1.1 Réinitialisation dynamique automatique si une marque est cochée ou si tri "desc"
             const brandCheckboxes = document.querySelectorAll('input[name="marque"]');
             const sortSelect = document.getElementById('sortSelect');
+            const categoryCheckboxes = document.querySelectorAll('input[name="cat"]');
 
             function checkAndResetMaxPrice() {
                 const brandSelected = Array.from(brandCheckboxes).some(cb => cb.checked);
@@ -485,7 +488,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
             }
 
-            // Exécution au chargement si une marque est déjà sélectionnée ou si tri desc
             checkAndResetMaxPrice();
 
             const minGap = 20;
@@ -530,10 +532,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 updatePriceSlider();
             }
 
-            // Écouteurs sur les marques et le tri pour forcer le max à 2500 dynamiquement
             brandCheckboxes.forEach(cb => {
                 cb.addEventListener('change', () => {
                     checkAndResetMaxPrice();
+                    if (filterForm) filterForm.submit();
+                });
+            });
+
+            categoryCheckboxes.forEach(cb => {
+                cb.addEventListener('change', () => {
                     if (filterForm) filterForm.submit();
                 });
             });
@@ -545,25 +552,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 });
             }
 
-            // 2. GESTION DE LA MODALE "À PROPOS"
             const aboutModal = document.getElementById('aboutModal');
             const openAboutModal = document.getElementById('openAboutModal');
             const closeAboutModal = document.getElementById('closeAboutModal');
             const closeAboutModalBtn = document.getElementById('closeAboutModalBtn');
 
-            function showAboutModal() {
-                aboutModal.classList.remove('hidden');
-            }
-
-            function hideAboutModal() {
-                aboutModal.classList.add('hidden');
-            }
+            function showAboutModal() { aboutModal.classList.remove('hidden'); }
+            function hideAboutModal() { aboutModal.classList.add('hidden'); }
 
             if (openAboutModal) openAboutModal.addEventListener('click', showAboutModal);
             if (closeAboutModal) closeAboutModal.addEventListener('click', hideAboutModal);
             if (closeAboutModalBtn) closeAboutModalBtn.addEventListener('click', hideAboutModal);
 
-            // 3. GESTION DES MODALES DE COMPARISON ET CHARGEMENT
             const boutonsComparer = document.querySelectorAll('.btn-comparer');
             const loadingModal = document.getElementById('loadingModal');
             const modalContent = document.getElementById('modalContent');
@@ -580,7 +580,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const toastNotification = document.getElementById('toastNotification');
             const toastCode = document.getElementById('toastCode');
 
-            // Références de la pop-up partenaire
             const partnerRedirectModal = document.getElementById('partnerRedirectModal');
             const partnerModalCard = document.getElementById('partnerModalCard');
             const closePartnerModal = document.getElementById('closePartnerModal');
@@ -595,9 +594,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             if (closePartnerModal) {
                 closePartnerModal.addEventListener('click', () => {
                     partnerRedirectModal.classList.add('hidden');
-                    partnerRedirectModal.classList.add('bg-black/60', 'backdrop-blur-sm', 'flex', 'items-center', 'justify-center', 'p-4');
-                    partnerRedirectModal.classList.remove('pointer-events-none');
-                    partnerModalCard.className = "bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-gray-100 flex flex-col relative overflow-hidden transition-all duration-300";
                 });
             }
 
@@ -607,7 +603,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     try {
                         productData = JSON.parse(this.getAttribute('data-produit'));
                     } catch (e) {
-                        console.error("Erreur de lecture du JSON produit :", e);
                         return;
                     }
 
@@ -754,18 +749,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 partnerCodeSection.classList.add('hidden');
                             }
 
-                            // 1. Configuration du bouton du bas vers le site marchand de la raquette
                             merchantNameText.innerText = siteName;
                             partnerExternalLink.href = targetUrl && targetUrl !== '#' ? targetUrl : '#';
 
-                            // 2. Ton partenaire reste fixe en haut de la modale
                             const partnerName = "SMART PADEL PRICE";
                             const partnerUrl = "https://smart-padel-price.fr/";
                             partnerModalTitle.innerText = `Smart Padel Price x ${partnerName}`;
                             partnerLogoLink.href = partnerUrl;
                             partnerLogoImg.src = "{{ url_for('static', filename='img/banniere-partenaire.png') }}";
 
-                            // Fermer la modale de comparaison et ouvrir la pop-up partenaire
                             comparisonModal.classList.add('hidden');
                             partnerRedirectModal.classList.remove('hidden');
                         });
@@ -774,12 +766,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 comparisonModal.classList.remove('hidden');
             }
 
-            // ACTION FINALE : Clic sur le bouton de redirection vers le marchand (fermeture automatique de la pop-up)
             partnerExternalLink.addEventListener('click', function (e) {
                 partnerRedirectModal.classList.add('hidden');
-                partnerRedirectModal.classList.add('bg-black/60', 'backdrop-blur-sm', 'flex', 'items-center', 'justify-center', 'p-4');
-                partnerRedirectModal.classList.remove('pointer-events-none');
-                partnerModalCard.className = "bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-gray-100 flex flex-col relative overflow-hidden transition-all duration-300";
             });
 
             if (closeComparisonModal) closeComparisonModal.addEventListener('click', () => comparisonModal.classList.add('hidden'));
@@ -794,9 +782,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     comparisonModal.classList.add('hidden');
                     aboutModal.classList.add('hidden');
                     partnerRedirectModal.classList.add('hidden');
-                    partnerRedirectModal.classList.add('bg-black/60', 'backdrop-blur-sm', 'flex', 'items-center', 'justify-center', 'p-4');
-                    partnerRedirectModal.classList.remove('pointer-events-none');
-                    partnerModalCard.className = "bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-gray-100 flex flex-col relative overflow-hidden transition-all duration-300";
                 }
             });
         });
